@@ -53,7 +53,7 @@ public:
 	template<typename T>
 	T* ReadStruct()
 	{
-		T* pStruct = reinterpret_cast<T*>(&m_Buffer[m_BufferPos]);
+		T* pStruct = reinterpret_cast<T*>(GetBuffer());
 		m_BufferPos += sizeof(T);
 		const char* errormsg = "";
 		if (!Validate(pStruct, errormsg)) {
