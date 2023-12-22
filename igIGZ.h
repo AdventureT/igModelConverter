@@ -29,6 +29,15 @@ class igIGZ : igFile
 		igPlatform m_platform;
 		igUInt m_numFixups;
 	};
+
+	struct Section
+	{
+		igUInt m_unknown;
+		igUInt m_offset;
+		igUInt m_length;
+		igUInt m_alignment;
+	};
+
 public:
 
 	igIGZ(const char* filepath) : igFile(filepath)
@@ -38,12 +47,23 @@ public:
 			return;
 		}
 		m_header = ReadStruct<Header>();
+		ParseSections();
 	}
 
 private:
 
+	void ParseSections()
+	{
+		for (size_t i = 0; i < MAX_SECTIONS; i++) {
+			Seek(sizeof(Header) + sizeof(Section) * i, IGSEEK_SET);
+			m_sections[i] = *ReadStruct<Section>();
+		}
+	}
 
+public:
+	static constexpr igUInt MAX_SECTIONS = 0x20;
 private:
 	Header* m_header;
+	Section m_sections[MAX_SECTIONS];
 };
 

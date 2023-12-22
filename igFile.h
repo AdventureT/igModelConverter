@@ -7,6 +7,13 @@ class igFile
 {
 public:
 
+	enum igSeek
+	{
+		IGSEEK_SET,
+		IGSEEK_CUR,
+		IGSEEK_END
+	};
+
 	igFile(const char* filepath)
 	{
 		std::ifstream file(filepath, std::ios::binary | std::ios::ate);
@@ -55,9 +62,25 @@ public:
 		return pStruct;
 	}
 
+	void Seek(igUInt amount, igSeek mode)
+	{
+		switch (mode)
+		{
+		case IGSEEK_SET:
+			m_BufferPos = amount;
+			break;
+		case IGSEEK_CUR:
+			m_BufferPos += amount;
+			break;
+		case IGSEEK_END:
+			m_BufferPos = m_BufferSize - amount;
+			break;
+		}
+	}
+
 protected:
 
-	char* GetBuffer() const { return m_Buffer; }
+	char* GetBuffer() const { return &m_Buffer[m_BufferPos]; }
 	igUInt GetSize() const { return m_BufferSize; }
 	igUInt Tell() const { return m_BufferPos; }
 
