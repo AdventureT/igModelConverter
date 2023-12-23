@@ -20,6 +20,8 @@ static constexpr igUInt IG_FIXUP_RNEX = MAKEFOUR("RNEX");
 static constexpr igUInt IG_FIXUP_RSTT = MAKEFOUR("RSTT");
 static constexpr igUInt IG_FIXUP_RSTR = MAKEFOUR("RSTR");
 
+static constexpr igUInt MAX_BUFFER = 0xFF;
+
 class igIGZSection
 {
 public:
@@ -46,8 +48,38 @@ public:
 class igIGZTDEP : public igIGZSection
 {
 public:
+
+	~igIGZTDEP()
+	{
+		for (auto i = m_namespaces.begin(); i != m_namespaces.end(); i++) {
+			delete *i;
+			i = m_namespaces.erase(i);
+		}
+		for (auto i = m_paths.begin(); i != m_paths.end(); i++) {
+			delete* i;
+			i = m_paths.erase(i);
+		}
+	}
+
 	virtual void Fixup() override;
 
 	std::vector<char*> m_namespaces;
 	std::vector<char*> m_paths;
+};
+
+class igIGZTSTR : public igIGZSection
+{
+public:
+
+	~igIGZTSTR()
+	{
+		for (auto i = m_stringTable.begin(); i != m_stringTable.end(); i++) {
+			delete* i;
+			i = m_stringTable.erase(i);
+		}
+	}
+
+	virtual void Fixup() override;
+
+	std::vector<char*> m_stringTable;
 };

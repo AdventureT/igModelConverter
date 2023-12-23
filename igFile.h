@@ -66,7 +66,8 @@ public:
 	{
 #pragma warning(suppress : 4996)
 		strcpy(string, GetBuffer());
-		m_BufferPos += strlen(string) + 1;
+		igUInt stringLength = (strlen(string) + 2) & -2; // Align number up to an even one
+		m_BufferPos += stringLength;
 		return string;
 	}
 

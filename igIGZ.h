@@ -79,5 +79,6 @@ private:
 	Section m_sections[MAX_SECTIONS];
 	igIGZTMET m_tmet;
 	igIGZTDEP m_tdep;
+	igIGZTSTR m_tstr;
 };
 

@@ -16,10 +16,14 @@ void igIGZ::ProcessFixupSections()
 			m_tdep.m_section = section;
 			m_tdep.Fixup();
 			break;
+		case IG_FIXUP_TSTR:
+			m_tstr.m_section = section;
+			m_tstr.Fixup();
+			break;
 		default:
 			break;
 		}
 		// Seek to next Fixup
-		Seek(cur + section.m_length, IGSEEK_SET);
+		//Seek(cur + section.m_length, IGSEEK_SET);
 	}
 }
