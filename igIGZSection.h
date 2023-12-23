@@ -53,11 +53,9 @@ public:
 	{
 		for (auto i = m_namespaces.begin(); i != m_namespaces.end(); i++) {
 			delete *i;
-			i = m_namespaces.erase(i);
 		}
 		for (auto i = m_paths.begin(); i != m_paths.end(); i++) {
 			delete* i;
-			i = m_paths.erase(i);
 		}
 	}
 
@@ -75,7 +73,6 @@ public:
 	{
 		for (auto i = m_stringTable.begin(); i != m_stringTable.end(); i++) {
 			delete* i;
-			i = m_stringTable.erase(i);
 		}
 	}
 

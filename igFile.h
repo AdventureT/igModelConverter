@@ -62,7 +62,7 @@ public:
 		return *pStruct;
 	}
 
-	char* ReadString(char* string)
+	char* ReadString(char*& string)
 	{
 #pragma warning(suppress : 4996)
 		strcpy(string, GetBuffer());
