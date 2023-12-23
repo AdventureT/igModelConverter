@@ -21,6 +21,9 @@
     <ClCompile Include="igIGZ.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="igIGZSection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="igIGZ.h">
@@ -30,6 +33,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="igFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="igIGZSection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

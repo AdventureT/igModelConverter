@@ -141,12 +141,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="igIGZ.cpp" />
+    <ClCompile Include="igIGZSection.cpp" />
     <ClCompile Include="igModelConverter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="igCore.h" />
     <ClInclude Include="igFile.h" />
     <ClInclude Include="igIGZ.h" />
+    <ClInclude Include="igIGZSection.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

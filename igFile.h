@@ -51,7 +51,7 @@ public:
 	// This function reads a struct from buffer. 
 	// If it has a Function called 'bool Validate(const char* errormsg)' then it executes this function on the struct.
 	template<typename T>
-	T* ReadStruct()
+	T ReadStruct()
 	{
 		T* pStruct = reinterpret_cast<T*>(GetBuffer());
 		m_BufferPos += sizeof(T);
@@ -59,7 +59,15 @@ public:
 		if (!Validate(pStruct, errormsg)) {
 			printf(errormsg);
 		}
-		return pStruct;
+		return *pStruct;
+	}
+
+	char* ReadString(char* string)
+	{
+#pragma warning(suppress : 4996)
+		strcpy(string, GetBuffer());
+		m_BufferPos += strlen(string) + 1;
+		return string;
 	}
 
 	void Seek(igUInt amount, igSeek mode)
@@ -78,7 +86,7 @@ public:
 		}
 	}
 
-protected:
+public:
 
 	char* GetBuffer() const { return &m_Buffer[m_BufferPos]; }
 	igUInt GetSize() const { return m_BufferSize; }

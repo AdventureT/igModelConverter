@@ -1,9 +1,14 @@
 #pragma once
 #include "igCore.h"
 #include "igFile.h"
+#include "igIGZSection.h"
 
-class igIGZ : igFile
+class igIGZ : public igFile
 {
+public:
+	static constexpr igUInt MAX_SECTIONS = 0x20;
+
+private:
 	struct Header
 	{
 		bool Validate(const char*& errormsg)
@@ -42,28 +47,37 @@ public:
 
 	igIGZ(const char* filepath) : igFile(filepath)
 	{
+		m_instance = this;
 		if (GetSize() < 0x800) {
 			printf("Filesize is too small, this can't be an igz");
 			return;
 		}
 		m_header = ReadStruct<Header>();
 		ParseSections();
+		ProcessFixupSections();
 	}
 
 private:
 
 	void ParseSections()
 	{
-		for (size_t i = 0; i < MAX_SECTIONS; i++) {
-			Seek(sizeof(Header) + sizeof(Section) * i, IGSEEK_SET);
-			m_sections[i] = *ReadStruct<Section>();
+		for (igUInt i = 0; i < MAX_SECTIONS; i++) {
+			m_sections[i] = ReadStruct<Section>();
 		}
 	}
 
+	void ProcessFixupSections();
+
 public:
-	static constexpr igUInt MAX_SECTIONS = 0x20;
+
+	static igIGZ* GetInstance() { return m_instance; }
+
+	inline static igIGZ* m_instance = NULL;
+
 private:
-	Header* m_header;
+	Header m_header;
 	Section m_sections[MAX_SECTIONS];
+	igIGZTMET m_tmet;
+	igIGZTDEP m_tdep;
 };
 
