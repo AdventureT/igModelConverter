@@ -48,10 +48,10 @@ public:
 		}	
 	}
 	
-	// This function reads a struct from buffer. 
-	// If it has a Function called 'bool Validate(const char* errormsg)' then it executes this function on the struct.
+	// This function reads T from buffer. 
+	// If T has a function called 'bool Validate(const char* errormsg)' then it executes this function on the struct.
 	template<typename T>
-	T ReadStruct()
+	T Read()
 	{
 		T* pStruct = reinterpret_cast<T*>(GetBuffer());
 		m_BufferPos += sizeof(T);
@@ -62,13 +62,13 @@ public:
 		return *pStruct;
 	}
 
-	char* ReadString(char*& string)
+	// Reads string from buffer and align to an even number
+	char* ReadString()
 	{
-#pragma warning(suppress : 4996)
-		strcpy(string, GetBuffer());
-		igUInt stringLength = (strlen(string) + 2) & -2; // Align number up to an even one
+		const igUInt stringLength = (strlen(GetBuffer()) + 2) & -2; // Align number up to an even one
+		char* buffer = GetBuffer();
 		m_BufferPos += stringLength;
-		return string;
+		return buffer;
 	}
 
 	void Seek(igUInt amount, igSeek mode)

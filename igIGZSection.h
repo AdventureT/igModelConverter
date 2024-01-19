@@ -35,7 +35,7 @@ public:
 		igUInt m_magic;
 		igUInt m_count;
 		igUInt m_length;
-		igUInt m_start;
+		igUInt m_alignment;
 	} m_section;
 };
 
@@ -43,21 +43,23 @@ class igIGZTMET : public igIGZSection
 {
 public:
 	virtual void Fixup() override;
+
+private:
+	std::vector<char*> m_vtables;
+};
+
+class igIGZMTSZ : public igIGZSection
+{
+public:
+	virtual void Fixup() override;
+
+private:
+	std::vector<igUInt> m_metaSizes;
 };
 
 class igIGZTDEP : public igIGZSection
 {
 public:
-
-	~igIGZTDEP()
-	{
-		for (auto i = m_namespaces.begin(); i != m_namespaces.end(); i++) {
-			delete *i;
-		}
-		for (auto i = m_paths.begin(); i != m_paths.end(); i++) {
-			delete* i;
-		}
-	}
 
 	virtual void Fixup() override;
 
@@ -69,14 +71,9 @@ class igIGZTSTR : public igIGZSection
 {
 public:
 
-	~igIGZTSTR()
-	{
-		for (auto i = m_stringTable.begin(); i != m_stringTable.end(); i++) {
-			delete* i;
-		}
-	}
-
 	virtual void Fixup() override;
+
+private:
 
 	std::vector<char*> m_stringTable;
 };

@@ -5,7 +5,7 @@ void igIGZ::ProcessFixupSections()
 	Seek(m_sections[0].m_offset, IGSEEK_SET);
 	for (igUInt i = 0; i < m_header.m_numFixups; i++) {
 		igUInt cur = Tell();
-		igIGZSection::Section section = ReadStruct<igIGZSection::Section>();
+		igIGZSection::Section section = Read<igIGZSection::Section>();
 		switch (section.m_magic)
 		{
 		case IG_FIXUP_TMET:
@@ -19,6 +19,10 @@ void igIGZ::ProcessFixupSections()
 		case IG_FIXUP_TSTR:
 			m_tstr.m_section = section;
 			m_tstr.Fixup();
+			break;
+		case IG_FIXUP_MTSZ:
+			m_mtsz.m_section = section;
+			m_mtsz.Fixup();
 			break;
 		default:
 			break;

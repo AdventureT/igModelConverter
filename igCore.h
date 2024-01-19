@@ -3,6 +3,7 @@
 typedef int          igInt;
 typedef unsigned int igUInt;
 
+#define IG_ALIGN(x, mask) (((x)+(mask))&~(mask))
 
 constexpr igUInt MAKEFOUR_BIG(char const p[5])
 {

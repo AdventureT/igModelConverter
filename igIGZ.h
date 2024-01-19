@@ -40,19 +40,17 @@ private:
 		igUInt m_unknown;
 		igUInt m_offset;
 		igUInt m_length;
-		igUInt m_alignment;
+		igUInt m_start;
 	};
 
 public:
 
 	igIGZ(const char* filepath) : igFile(filepath)
 	{
+		assert(m_instance == NULL);
 		m_instance = this;
-		if (GetSize() < 0x800) {
-			printf("Filesize is too small, this can't be an igz");
-			return;
-		}
-		m_header = ReadStruct<Header>();
+		assert(GetSize() >= 0x800 && "Filesize is too small, this can't be an igz");
+		m_header = Read<Header>();
 		ParseSections();
 		ProcessFixupSections();
 	}
@@ -62,7 +60,7 @@ private:
 	void ParseSections()
 	{
 		for (igUInt i = 0; i < MAX_SECTIONS; i++) {
-			m_sections[i] = ReadStruct<Section>();
+			m_sections[i] = Read<Section>();
 		}
 	}
 
@@ -80,5 +78,6 @@ private:
 	igIGZTMET m_tmet;
 	igIGZTDEP m_tdep;
 	igIGZTSTR m_tstr;
+	igIGZMTSZ m_mtsz;
 };
 
