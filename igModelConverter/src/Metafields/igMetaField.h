@@ -1,7 +1,8 @@
 #pragma once
-#include "../igCore.h"
+#include "igObject.h"
 
-class igMetaField
+class igMetaField : public igObject
 {
-	
+protected:
+	igUInt _version;
 };
