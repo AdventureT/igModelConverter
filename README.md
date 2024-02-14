@@ -31,7 +31,7 @@ cd to the root folder and run
 
     ./premake5 gmake2
 This will generate a makefile for you.
-# macOS users
+### macOS users
 cd to the root folder and run
 
     ./premake5.osx gmake2
