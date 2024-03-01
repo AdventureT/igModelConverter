@@ -38,14 +38,11 @@ public:
 	struct HasValidation <T, decltype(&T::Validate, 0)> : std::true_type { };
 
 	template<typename T>
-	inline constexpr bool Validate(T* container, const char*& errormsg)
+	inline constexpr void Validate(T* container)
 	{
 		if constexpr (HasValidation<T>::value) {
-			return container->Validate(errormsg);
+			container->Validate();
 		}
-		else {
-			return true;
-		}	
 	}
 	
 	// This function reads T from buffer. 
@@ -55,10 +52,7 @@ public:
 	{
 		T* pStruct = reinterpret_cast<T*>(GetBuffer());
 		m_BufferPos += sizeof(T);
-		const char* errormsg = "";
-		if (!Validate(pStruct, errormsg)) {
-			printf(errormsg);
-		}
+		Validate(pStruct);
 		return *pStruct;
 	}
 

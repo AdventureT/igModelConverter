@@ -1,5 +1,9 @@
 #pragma once
 
+#include <config.h>
+#include <raylib.h>
+#include <utils.h>
+
 typedef int          igInt;
 typedef unsigned int igUInt;
 

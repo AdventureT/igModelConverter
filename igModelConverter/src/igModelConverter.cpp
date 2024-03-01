@@ -8,6 +8,7 @@
 int main(int argc, char* argv[])
 {
     igIGZ igz = igIGZ(argv[1]);
+    igz.PrintFixups();
 
     // Initialization
     //--------------------------------------------------------------------------------------

@@ -11,21 +11,17 @@ public:
 private:
 	struct Header
 	{
-		bool Validate(const char*& errormsg)
+		void Validate()
 		{
 			if (m_magic != MAKEFOUR("IGZ\1") && m_magic != MAKEFOUR_BIG("IGZ\1")) {
-				errormsg = "Not an IGZ";
-				return false;
+				TRACELOG(LOG_FATAL, "Not an IGZ");
 			}
 			if (m_version != 10) {
-				errormsg = "Unsupported version";
-				return false;
+				TRACELOG(LOG_ERROR, "Unsupported version");
 			}
 			if (m_platform != igPlatform::IG_PLATFORM_PC) {
-				errormsg = "Unsupported platform";
-				return false;
+				TRACELOG(LOG_ERROR, "Unsupported platform");
 			}
-			return true;
 		}
 
 		igUInt m_magic;
@@ -54,6 +50,8 @@ public:
 		ParseSections();
 		ProcessFixupSections();
 	}
+
+	void PrintFixups() const;
 
 private:
 

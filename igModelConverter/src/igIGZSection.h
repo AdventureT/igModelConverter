@@ -28,6 +28,16 @@ public:
 
 	virtual void Fixup() {}
 
+	bool IsEncoded() const
+	{
+		return (char)m_section.m_magic == 'R';
+	}
+
+	virtual void PrintFixup() const
+	{
+		TRACELOG(LOG_NONE, "%.4s", &m_section.m_magic);
+	}
+
 public:
 
 	struct Section
@@ -44,6 +54,19 @@ class igIGZTMET : public igIGZSection
 public:
 	virtual void Fixup() override;
 
+	virtual void PrintFixup() const override
+	{
+		igIGZSection::PrintFixup();
+		for (char* vtable : GetVTables()) {
+			TRACELOG(LOG_NONE, "  %s", vtable);
+		}
+	}
+
+	std::vector<char*> GetVTables() const
+	{
+		return m_vtables;
+	}
+
 private:
 	std::vector<char*> m_vtables;
 };
@@ -53,6 +76,19 @@ class igIGZMTSZ : public igIGZSection
 public:
 	virtual void Fixup() override;
 
+	virtual void PrintFixup() const override
+	{
+		igIGZSection::PrintFixup();
+		for (igUInt metasize : GetMetaSizes()) {
+			TRACELOG(LOG_NONE, "  %d", metasize);
+		}
+	}
+
+	std::vector<igUInt> GetMetaSizes() const
+	{
+		return m_metaSizes;
+	}
+
 private:
 	std::vector<igUInt> m_metaSizes;
 };
@@ -60,8 +96,31 @@ private:
 class igIGZTDEP : public igIGZSection
 {
 public:
-
 	virtual void Fixup() override;
+
+	virtual void PrintFixup() const override
+	{
+		igIGZSection::PrintFixup();
+		TRACELOG(LOG_NONE, "  Namespaces");
+		for (char* namespaces : GetNamespaces()) {
+			TRACELOG(LOG_NONE, "    %s", namespaces);
+		}
+		TRACELOG(LOG_NONE, "  Paths");
+		for (char* paths : GetPaths()) {
+			TRACELOG(LOG_NONE, "    %s", paths);
+		}
+	}
+
+	std::vector<char*> GetNamespaces() const
+	{
+		return m_namespaces;
+	}
+	std::vector<char*> GetPaths() const
+	{
+		return m_paths;
+	}
+
+private:
 
 	std::vector<char*> m_namespaces;
 	std::vector<char*> m_paths;
@@ -70,8 +129,20 @@ public:
 class igIGZTSTR : public igIGZSection
 {
 public:
-
 	virtual void Fixup() override;
+
+	virtual void PrintFixup() const override
+	{
+		igIGZSection::PrintFixup();
+		for (char* string : GetStrings()) {
+			TRACELOG(LOG_NONE, "  %s", string);
+		}
+	}
+
+	std::vector<char*> GetStrings() const
+	{
+		return m_stringTable;
+	}
 
 private:
 

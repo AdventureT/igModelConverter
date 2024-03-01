@@ -31,3 +31,13 @@ void igIGZ::ProcessFixupSections()
 		//Seek(cur + section.m_length, IGSEEK_SET);
 	}
 }
+
+void igIGZ::PrintFixups() const
+{
+	TRACELOG(LOG_NONE, "==================================================");
+	TRACELOG(LOG_NONE, "Fixups");
+	TRACELOG(LOG_NONE, "==================================================");
+	m_tmet.PrintFixup();
+	m_tdep.PrintFixup();
+	m_tstr.PrintFixup();
+}
